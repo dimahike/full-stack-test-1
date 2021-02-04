@@ -17,14 +17,15 @@ const HomePage = () => {
   );
 
   const { loading, tasks, page, pages, error } = useSelector((state) => state.taskList);
-  const { success } = useSelector((state) => state.createTask);
+  const { success: successCreateTask } = useSelector((state) => state.createTask);
+  const { success: successChangeStatus } = useSelector((state) => state.changeStatus);
 
   const dispatch = useDispatch();
 
   useEffect(() => {
     const sortName = Object.keys(sortItems)[sortBy];
     dispatch(taskList({ pageNumber: selectedPage, sort: sortName }));
-  }, [dispatch, success, selectedPage, sortBy]);
+  }, [dispatch, successCreateTask, successChangeStatus, selectedPage, sortBy]);
 
   const selectPage = (page) => {
     setSelectedPage(page);

@@ -1,19 +1,40 @@
 import React, { useState } from 'react';
+import { useDispatch } from 'react-redux';
+import { Link } from 'react-router-dom';
+import { signout } from '../reducer/actions/userActions';
 
-const Header = () => {
-  const [login, setLogin] = useState(true);
+import './Header.scss';
+
+const Header = ({ userInfo }) => {
+  const dispatch = useDispatch();
+
+  const signoutHandler = () => {
+    dispatch(signout());
+  };
+
   return (
     <header className="row space-btw">
       <div className="align-items">
-        <p className="logo">TODO LIST</p>
+        <Link to="/" className="logo">
+          TODO LIST
+        </Link>
       </div>
       <div>
-        {login ? (
-          <>
-            <p>Logout</p>
-          </>
+        {userInfo ? (
+          <div className="dropdown">
+            <div>
+              {userInfo.name} <i className="fa fa-caret-down"></i>{' '}
+            </div>
+            <ul className="dropdown-content">
+              <li>
+                <div to="/" onClick={signoutHandler}>
+                  Sign Out
+                </div>
+              </li>
+            </ul>
+          </div>
         ) : (
-          <p>Sign In</p>
+          <Link to="/signin">Sign in</Link>
         )}
       </div>
     </header>

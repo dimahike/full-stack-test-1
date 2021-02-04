@@ -99,7 +99,7 @@ taskRouter.put(
     task.status = status;
 
     const updatedTask = await task.save();
-    res.send({ message: 'Sratus Updated', task: updatedTask });
+    res.send({ message: 'Status Updated', task: updatedTask });
   }),
 );
 

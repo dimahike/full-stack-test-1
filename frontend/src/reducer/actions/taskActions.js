@@ -34,11 +34,23 @@ export const taskList = ({ pageNumber = 1, sort = 'name', order = 1 }) => async 
   }
 };
 
-export const changeStatus = (status, taskId) => async (dispatch) => {
+export const changeStatus = (status, taskId) => async (dispatch, getState) => {
   dispatch({ type: CHANGE_STATUS_REQUEST });
 
+  const {
+    userSignin: { userInfo },
+  } = getState();
+
   try {
-    const { data } = await Axios.put(`/api/tasks/${taskId}/status`, { status });
+    const { data } = await Axios.put(
+      `/api/tasks/${taskId}/status`,
+      { status },
+      {
+        headers: {
+          Authorization: `Bearer ${userInfo?.token}`, // userInfo?.token  it is same  userInfo && userInfo.token
+        },
+      },
+    );
 
     dispatch({
       type: CHANGE_STATUS_SUCCESS,

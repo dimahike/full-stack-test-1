@@ -1,5 +1,5 @@
 import React, { useState } from 'react';
-import { useDispatch } from 'react-redux';
+import { useDispatch, useSelector } from 'react-redux';
 import { changeStatus } from '../reducer/actions/taskActions';
 
 import './Task.scss';
@@ -26,10 +26,10 @@ const Task = ({ task }) => {
   const [selectedStatus, setSelectedStatus] = useState(convertedStatus);
   const [showSelecterStatus, setShowSelecterStatus] = useState(false);
 
-  const selector = (status) => {
-    const index = statuses.indexOf(status);
+  const selector = (index) => {
     setSelectedStatus(index);
     setShowSelecterStatus(false);
+
     dispatch(changeStatus(index, task._id));
     // change status
   };
@@ -59,10 +59,10 @@ const Task = ({ task }) => {
             </span>
           </div>
           <ul className={showSelecterStatus ? '' : 'show'}>
-            {statuses.map((status) => (
+            {statuses.map((status, index) => (
               <li
                 className={statuses[selectedStatus] === status ? 'active' : ''}
-                onClick={() => selector(status)}>
+                onClick={() => selector(index)}>
                 {status}
               </li>
             ))}

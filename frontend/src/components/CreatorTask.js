@@ -15,29 +15,43 @@ const CreatorTask = () => {
   };
 
   return (
-    <form className="creater-task" onSubmit={submitHandler}>
-      <h1>Create your task</h1>
+    <form className="form" onSubmit={submitHandler}>
       <div>
-        <div>
-          <input type="text" name="q" id="q" onChange={(e) => setName(e.target.value)} />
-        </div>
-        <div>
-          <input type="text" name="q" id="q" onChange={(e) => setEmail(e.target.value)} />
-        </div>
-        <div>
-          <textarea
-            type="text"
-            name="q"
-            id="q"
-            rows="3"
-            onChange={(e) => setText(e.target.value)}
-          />
-        </div>
-        <div>
-          <button className="primary" type="submit">
-            ADD TASK
-          </button>
-        </div>
+        <h1>Create your task</h1>
+      </div>
+      <div>
+        <label htmlFor="name">Name</label>
+        <input
+          type="text"
+          id="name"
+          placeholder="Enter your name"
+          onChange={(e) => setName(e.target.value)}
+        />
+      </div>
+      <div>
+        <label htmlFor="email">Email Address</label>
+        <input
+          type="email"
+          id="email"
+          placeholder="Enter your email"
+          onChange={(e) => setEmail(e.target.value)}
+        />
+      </div>
+      <div>
+        <label htmlFor="task">New Task </label>
+        <textarea
+          row="2"
+          type="text"
+          id="task"
+          placeholder="Enter your new task"
+          onChange={(e) => setText(e.target.value)}
+        />
+      </div>
+      <div>
+        <label />
+        <button className="primary" type="submit">
+          ADD NEW TASK
+        </button>
       </div>
     </form>
   );

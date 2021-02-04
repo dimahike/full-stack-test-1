@@ -5,6 +5,7 @@ import {
   createTaskReducer,
   taskListReducer,
 } from './reducers/taskReducers.js';
+import { userRegisterReducer, userSigninReducer } from './reducers/userReaducers.js';
 
 const initialState = {
   userSignin: {
@@ -18,6 +19,8 @@ const reducer = combineReducers({
   taskList: taskListReducer,
   changeStatus: changeStatusReducer,
   createTask: createTaskReducer,
+  userSignin: userSigninReducer,
+  userRegister: userRegisterReducer,
 });
 
 const composeEnhancers = window.__REDUX_DEVTOOLS_EXTENSION_COMPOSE__ || compose;
