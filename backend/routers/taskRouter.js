@@ -5,7 +5,7 @@ import jwt from 'jsonwebtoken';
 
 import { data } from '../data.js';
 import Task from '../models/taskModel.js';
-import { isAuth } from '../utils.js';
+import { decodeJWT, isAuth } from '../utils.js';
 
 const taskRouter = express.Router();
 
@@ -15,7 +15,7 @@ taskRouter.get(
     const pageSize = 9;
     const page = Number(req.query.pageNumber) || 1;
 
-    const sortTasks = req.query.sortTasks || 'userName';
+    const sortTasks = req.query.sortBy || 'userName';
 
     const order = req.query.order || '';
     const sortOrder = order === 'lowest' ? 1 : order === 'highest' ? -1 : 1;
@@ -79,23 +79,24 @@ taskRouter.post(
 );
 
 taskRouter.put(
-  '/:id',
-  isAuth,
+  '/:id/status',
+  decodeJWT,
   expressAsyncHandler(async (req, res) => {
     const taskId = req.params.id;
 
     const task = await Task.findById(taskId);
+    let status;
 
-    if (task.createdUser == req.user._id || req.user.isAdmin) {
-      task.status = req.body.status || task.status;
-
-      const updatedTask = await task.save();
-      res.send({ message: 'Task Updated', task: updatedTask });
+    if (req.user && req.user.isAdmin) {
+      status = req.body.status === 0 ? 1 : req.body.status === 1 ? 11 : task.status;
     } else {
-      res.status(403).send({
-        error: 'You don not have an access to update a status of the task. ',
-      });
+      status = req.body.status === 0 ? 0 : req.body.status === 1 ? 10 : task.status;
     }
+
+    task.status = status;
+
+    const updatedTask = await task.save();
+    res.send({ message: 'Sratus Updated', task: updatedTask });
   }),
 );
 

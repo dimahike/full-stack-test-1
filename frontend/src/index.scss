@@ -1,0 +1,192 @@
+html {
+  font-size: 62.5%;  /* 16 px * 62.5% = 10px = 1rem */
+  box-sizing: border-box;
+}
+p {
+  line-height: 0;
+}
+
+body {
+  margin: 0%;
+  height: 100vh;
+  font-size: 1.5rem;
+  font-family: Helvetica, Arial, sans-serif;
+  background: ghostwhite ;
+
+  -webkit-font-smoothing: antialiased;
+  -moz-osx-font-smoothing: grayscale;
+}
+
+#root {
+  height: 100%;
+}
+
+/* Layout  */
+
+.grid-container{
+  display: grid;
+  grid-template-areas: 
+    'header'
+    'main'
+    'footer';
+  grid-template-columns: 1fr;
+  grid-template-rows:  5rem 1fr 5rem;
+  height: 100%;
+}
+
+header {
+  grid-area: header;
+  background-color: #203040;
+  color: #fff;
+  padding: 0 1rem;
+}
+
+main {
+  grid-area: main;
+  padding: 1rem;
+  background-color: #dedee0;
+}
+
+footer {
+  grid-area: footer;
+  background-color: #203040;
+  color: #fff;
+}
+
+.paper {
+  margin: 5% 8%;
+  padding: 3% 5%;
+  background-color: #fff;
+  border-radius: 1rem;
+}
+
+/* Header */
+
+header p:hover {
+  color: orange;
+}
+
+main span {
+  font-size: 1.5rem;
+}
+
+header .logo {
+  font-size: 2rem;
+  font-weight: bold;
+}
+.flex {
+  display: flex;
+  flex-wrap: wrap;
+  /* justify-content: space-between; */
+  align-items: center;
+}
+.row {
+  display: flex;
+  flex-wrap: wrap;
+  // justify-content: space-between;
+  align-items: center;
+}
+
+.row.center {
+  justify-content: center;
+}
+
+.row.center {
+  justify-content: center;
+}
+
+.row.top {
+  align-items: flex-start;
+}
+
+.row.start {
+  justify-content: flex-start;
+}
+
+.align-center {
+  align-items: center;
+}
+
+.col-1 {
+  margin: 1rem;
+  flex: 1 1 20rem;
+}
+
+.col-2 {
+  margin: 1rem;
+  flex: 2 1 40rem;
+}
+
+.col-3 {
+  margin: 1rem;
+  flex: 3 1 75rem;
+}
+
+ul {
+  padding: 0%;
+  margin: 0.5rem 0 0 0;
+  border: 0.1rem solid #000;
+  list-style-type: none;
+  width: 12rem;
+}
+
+ul li {
+  padding: 0.2rem;
+  text-align: center;
+}
+
+ul li:hover {
+  background: skyblue;
+}
+
+
+/* Task  */
+
+
+
+.task {
+  border-bottom: 0.2rem solid gainsboro;
+  padding: 1rem 0.5rem;
+}
+.left > div {
+  margin: 0  1rem;
+}
+
+
+/* Selector status  */
+
+
+
+.selected-status {
+  margin-left: 0.5rem;
+  padding: 0.5rem 0.7rem;
+  width: 8rem;
+  text-align: center;
+}
+
+.show{
+  display: none;
+}
+
+.rotared {
+  transform: rotate(180deg);
+}
+
+.processing {
+  background-color: tomato;
+}
+
+.complete {
+  background-color: yellowgreen;
+}
+
+
+
+/* Table  */
+
+.table {
+  width: 100%;
+  /* border-collapse: collapse; */
+}
+
+
