@@ -5,70 +5,47 @@ import SortPopup from '../components/SortPopup';
 import Task from '../components/Task';
 import LoadingBox from '../components/LoadingBox';
 import MessageBox from '../components/MessageBox';
-
-const sortItems = ['userName', 'email', 'status'];
+import CreatorTask from '../components/CreatorTask';
+import Pagination from '../components/Pagination';
+import { sortItems } from '../data.js';
 
 const HomePage = () => {
-  const [name, setName] = useState('');
-  const [email, setEmail] = useState('');
-  const [text, setText] = useState('');
-
+  const [selectedPage, setSelectedPage] = useState();
+  const [sortBy, setSortBy] = useState(0);
   const { loading: loadingStatus, success: successStatus, error: errorStatus } = useSelector(
     (state) => state.changeStatus,
   );
 
-  const { loading, tasks, error } = useSelector((state) => state.taskList);
-
-  console.log(tasks);
+  const { loading, tasks, page, pages, error } = useSelector((state) => state.taskList);
+  const { success } = useSelector((state) => state.createTask);
 
   const dispatch = useDispatch();
 
   useEffect(() => {
-    dispatch(taskList({}));
-  }, []);
+    const sortName = Object.keys(sortItems)[sortBy];
+    dispatch(taskList({ pageNumber: selectedPage, sort: sortName }));
+  }, [dispatch, success, selectedPage, sortBy]);
 
-  const submitHandler = (e) => {
-    e.preventDefault();
+  const selectPage = (page) => {
+    setSelectedPage(page);
   };
 
   const onSelectSortPopup = React.useCallback((index) => {
-    // dispatch sort
-    // dispatch(setSortBy(sortItems[index]));
-    console.log('sort');
+    setSortBy(index);
+    console.log('sort', index);
   }, []);
 
   return (
     <div className="paper">
-      <form className="creater-task" onSubmit={submitHandler}>
-        <h1 className={{ color: 'black' }}>Add your task</h1>
-        <div>
-          <div>
-            <input type="text" name="q" id="q" onChange={(e) => setName(e.target.value)} />
-          </div>
-          <div>
-            <input type="text" name="q" id="q" onChange={(e) => setEmail(e.target.value)} />
-          </div>
-          <div>
-            <textarea
-              type="text"
-              name="q"
-              id="q"
-              rows="3"
-              onChange={(e) => setText(e.target.value)}
-            />
-          </div>
-          <div>
-            <button className="primary" type="submit">
-              ADD TASK
-            </button>
-          </div>
-        </div>
-      </form>
-
       <div>
-        <div className="row">
+        <CreatorTask />
+        <div className="row space-btw">
           <h1>Task list</h1>
-          <SortPopup onClickSortPopup={onSelectSortPopup} activeSortType={0} items={sortItems} />
+          <SortPopup
+            onClickSortPopup={onSelectSortPopup}
+            activeSortType={sortBy}
+            items={sortItems}
+          />
         </div>
         {loadingStatus && <LoadingBox />}
         {errorStatus ? (
@@ -83,6 +60,7 @@ const HomePage = () => {
         ) : (
           tasks.map((task) => <Task key={task._id} task={task} />)
         )}
+        <Pagination page={page} pages={pages} selectPage={selectPage} />
       </div>
     </div>
   );

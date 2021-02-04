@@ -12,7 +12,7 @@ const taskRouter = express.Router();
 taskRouter.get(
   '/',
   expressAsyncHandler(async (req, res) => {
-    const pageSize = 9;
+    const pageSize = 3;
     const page = Number(req.query.pageNumber) || 1;
 
     const sortTasks = req.query.sortBy || 'userName';
@@ -22,13 +22,16 @@ taskRouter.get(
 
     const sort = { [sortTasks]: sortOrder };
 
+    const count = await Task.count({});
+    console.log('count', count);
+
     const tasks = await Task.find({})
       .populate()
       .sort(sort)
       .skip(pageSize * (page - 1))
       .limit(pageSize);
 
-    res.send({ tasks });
+    res.send({ tasks, page, pages: Math.ceil(count / pageSize) });
   }),
 );
 

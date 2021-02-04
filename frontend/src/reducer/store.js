@@ -1,6 +1,10 @@
 import { applyMiddleware, combineReducers, compose, createStore } from 'redux';
 import thunk from 'redux-thunk';
-import { changeStatusReducer, taskListReducer } from './reducers/taskReducers.js';
+import {
+  changeStatusReducer,
+  createTaskReducer,
+  taskListReducer,
+} from './reducers/taskReducers.js';
 
 const initialState = {
   userSignin: {
@@ -13,6 +17,7 @@ const initialState = {
 const reducer = combineReducers({
   taskList: taskListReducer,
   changeStatus: changeStatusReducer,
+  createTask: createTaskReducer,
 });
 
 const composeEnhancers = window.__REDUX_DEVTOOLS_EXTENSION_COMPOSE__ || compose;

@@ -6,9 +6,13 @@ import {
   CHANGE_STATUS_REQUEST,
   CHANGE_STATUS_SUCCESS,
   CHANGE_STATUS_FAIL,
+  CREATE_TASK_REQUEST,
+  CREATE_TASK_SUCCESS,
+  CREATE_TASK_FAIL,
 } from '../constants/taskListConstants.js';
 
 export const taskList = ({ pageNumber = 1, sort = 'name', order = 1 }) => async (dispatch) => {
+  console.log('sort', sort);
   dispatch({
     type: TASK_LIST_REQUEST,
   });
@@ -43,6 +47,25 @@ export const changeStatus = (status, taskId) => async (dispatch) => {
   } catch (error) {
     dispatch({
       type: CHANGE_STATUS_FAIL,
+      payload:
+        error.response && error.response.data.message ? error.response.data.message : error.message,
+    });
+  }
+};
+
+export const createTask = (task) => async (dispatch) => {
+  dispatch({ type: CREATE_TASK_REQUEST });
+
+  try {
+    const { data } = await Axios.post(`/api/tasks`, task);
+
+    dispatch({
+      type: CREATE_TASK_SUCCESS,
+      payload: data,
+    });
+  } catch (error) {
+    dispatch({
+      type: CREATE_TASK_FAIL,
       payload:
         error.response && error.response.data.message ? error.response.data.message : error.message,
     });
