@@ -17,13 +17,12 @@ taskRouter.get(
 
     const sortTasks = req.query.sortBy || 'userName';
 
-    const order = req.query.order || '';
+    const order = req.query.order || 'lowest';
     const sortOrder = order === 'lowest' ? 1 : order === 'highest' ? -1 : 1;
 
     const sort = { [sortTasks]: sortOrder };
 
     const count = await Task.count({});
-    console.log('count', count);
 
     const tasks = await Task.find({})
       .populate()
@@ -38,8 +37,7 @@ taskRouter.get(
 taskRouter.get(
   '/seed',
   expressAsyncHandler(async (req, res) => {
-    // await User.remove({});
-    console.log('work');
+    console.log('task list of a seed');
     const createdTasks = await Task.insertMany(data.tasks);
     res.send({ createdTasks });
   }),

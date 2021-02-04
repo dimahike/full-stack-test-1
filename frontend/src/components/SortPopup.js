@@ -2,12 +2,21 @@ import React, { useState, useEffect, useRef } from 'react';
 
 import './SortPopup.scss';
 
-const SortPopup = React.memo(function SortPopup({ items, onClickSortPopup, activeSortType }) {
-  const [visiblePopup, setVisiblePopup] = useState(false);
-  const sortRef = useRef();
-  // const activeLabel = items.find((obj) => obj.type === activeSortType).name;
+const highOrLow = ['lowest', 'highest'];
 
+const SortPopup = React.memo(function SortPopup({
+  items,
+  onClickSortPopup,
+  activeSortType = 'userName',
+  decrIncr,
+}) {
   const arrItems = Object.values(items);
+
+  const indexActiveItem = Object.keys(items).indexOf(activeSortType);
+
+  const [visiblePopup, setVisiblePopup] = useState(false);
+  const [highOrLowIndex, setHighOrLowIndex] = useState(0);
+  const sortRef = useRef();
 
   const toggleVisiblePopup = () => {
     setVisiblePopup(!visiblePopup);
@@ -24,8 +33,14 @@ const SortPopup = React.memo(function SortPopup({ items, onClickSortPopup, activ
   };
 
   const onSelectItem = (indexActiveItem) => {
-    onClickSortPopup(indexActiveItem);
+    onClickSortPopup(Object.keys(items)[indexActiveItem]);
     setVisiblePopup(false);
+  };
+
+  const sortHighOrLow = () => {
+    const convertHighOrLowIndex = highOrLowIndex === 0 ? 1 : highOrLowIndex === 1 && 0;
+    setHighOrLowIndex(convertHighOrLowIndex);
+    decrIncr(highOrLow[highOrLowIndex]);
   };
 
   useEffect(() => {
@@ -48,7 +63,13 @@ const SortPopup = React.memo(function SortPopup({ items, onClickSortPopup, activ
           />
         </svg>
         <b>Sort by:</b>
-        <span onClick={toggleVisiblePopup}>{arrItems[activeSortType]}</span>
+        <span onClick={toggleVisiblePopup}>{arrItems[indexActiveItem]}</span>
+        <div>
+          <label />
+          <button className="small secondary" onClick={sortHighOrLow}>
+            {highOrLow[highOrLowIndex]}
+          </button>
+        </div>
       </div>
 
       {visiblePopup && (

@@ -11,7 +11,8 @@ import { sortItems } from '../data.js';
 
 const HomePage = () => {
   const [selectedPage, setSelectedPage] = useState();
-  const [sortBy, setSortBy] = useState(0);
+  const [sortBy, setSortBy] = useState('userName');
+  const [orderDicrIncr, setOrderDicrIncr] = useState('');
   const { loading: loadingStatus, success: successStatus, error: errorStatus } = useSelector(
     (state) => state.changeStatus,
   );
@@ -23,19 +24,20 @@ const HomePage = () => {
   const dispatch = useDispatch();
 
   useEffect(() => {
-    const sortName = Object.keys(sortItems)[sortBy];
-    dispatch(taskList({ pageNumber: selectedPage, sort: sortName }));
-  }, [dispatch, successCreateTask, successChangeStatus, selectedPage, sortBy]);
+    dispatch(taskList({ pageNumber: selectedPage, sort: sortBy, order: orderDicrIncr }));
+  }, [dispatch, successCreateTask, successChangeStatus, selectedPage, sortBy, orderDicrIncr]);
 
   const selectPage = (page) => {
     setSelectedPage(page);
   };
 
-  const onSelectSortPopup = React.useCallback((index) => {
-    setSortBy(index);
-    console.log('sort', index);
+  const onSelectSortPopup = React.useCallback((sort) => {
+    setSortBy(sort);
   }, []);
 
+  const decrIncrOrder = React.useCallback((decrIncr) => {
+    setOrderDicrIncr(decrIncr);
+  }, []);
   return (
     <div className="paper">
       <div>
@@ -46,6 +48,7 @@ const HomePage = () => {
             onClickSortPopup={onSelectSortPopup}
             activeSortType={sortBy}
             items={sortItems}
+            decrIncr={decrIncrOrder}
           />
         </div>
         {loadingStatus && <LoadingBox />}

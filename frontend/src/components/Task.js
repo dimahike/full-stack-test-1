@@ -1,5 +1,5 @@
 import React, { useState } from 'react';
-import { useDispatch, useSelector } from 'react-redux';
+import { useDispatch } from 'react-redux';
 import { changeStatus } from '../reducer/actions/taskActions';
 
 import './Task.scss';
@@ -31,7 +31,6 @@ const Task = ({ task }) => {
     setShowSelecterStatus(false);
 
     dispatch(changeStatus(index, task._id));
-    // change status
   };
   return (
     <div className="row task">

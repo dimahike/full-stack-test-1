@@ -11,8 +11,10 @@ import {
   CREATE_TASK_FAIL,
 } from '../constants/taskListConstants.js';
 
-export const taskList = ({ pageNumber = 1, sort = 'name', order = 1 }) => async (dispatch) => {
-  console.log('sort', sort);
+export const taskList = ({ pageNumber = 1, sort = 'userName', order = 'lowest' }) => async (
+  dispatch,
+) => {
+  console.log({ pageNumber, sort, order });
   dispatch({
     type: TASK_LIST_REQUEST,
   });
@@ -47,10 +49,12 @@ export const changeStatus = (status, taskId) => async (dispatch, getState) => {
       { status },
       {
         headers: {
-          Authorization: `Bearer ${userInfo?.token}`, // userInfo?.token  it is same  userInfo && userInfo.token
+          Authorization: `Bearer ${userInfo?.token}`,
         },
       },
     );
+
+    console.log('Changed status from reuest', data);
 
     dispatch({
       type: CHANGE_STATUS_SUCCESS,
